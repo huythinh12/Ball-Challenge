@@ -27,10 +27,14 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 lookDir = (player.transform.position - transform.position).normalized;
-        enemyRb.AddForce(lookDir * speed);
+        if(player != null)
+        {
+            Vector3 lookDir = (player.transform.position - transform.position).normalized;
+            enemyRb.AddForce(lookDir * speed);
+        }
         if(transform.position.y < -10)
         {
+            SpawnManager.countEnemyDeath++;
             Destroy(gameObject);
         }
     }

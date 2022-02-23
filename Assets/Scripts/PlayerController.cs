@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private Rigidbody playerRb;
-    private GameObject focalPoint;
-    public GameObject powerUpIndicator,balloon;
+    public GameObject powerUpIndicator, balloon;
     public GameObject bullet;
     public GameObject managerForce;
     public float speed = 5.0f;
     public bool hasPowerUp = false;
+    public GameObject retrybutton, gameoverTitle;
+    private Rigidbody playerRb;
+    private GameObject focalPoint;
     private bool hasRocket = false;
     private bool isLand = true;
     private float powerUp = 15.0f;
@@ -38,14 +39,27 @@ public class PlayerController : MonoBehaviour
             isLand = false;
             playerRb.AddForce(Vector3.up * 30, ForceMode.Impulse);
             managerForce.SetActive(false);
-           
+
         }
         if (transform.position.y > 4.3f)
         {
             playerRb.AddForce(Vector3.down * 80, ForceMode.Impulse);
         }
+
+        if (transform.position.y < -10)
+        {
+            Destroy(gameObject);
+        }
     }
- 
+    private void OnDestroy()
+    {
+        if (gameObject != null)
+        {
+            retrybutton.SetActive(true);
+            gameoverTitle.SetActive(true);
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("PowerUp"))
